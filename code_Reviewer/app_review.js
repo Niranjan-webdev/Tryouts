@@ -1,27 +1,43 @@
 require('dotenv').config();
-const { OpenAI } = require('openai');
 const fs = require('fs');
+const axios = require('axios');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 (async () => {
   const diff = fs.readFileSync('pr.diff', 'utf8');
 
   const prompt = `
-You are an expert code reviewer. Review this code diff:
+You are an expert code reviewer. Review this GitHub Pull Request diff:
 
 ${diff}
 
-Focus on:
+Focus only on:
 - Syntax errors
 - Redundant variables
-- Optimal suggestions only if required
+- Optimization suggestions (if any)
+Return the feedback in clear markdown.
 `;
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
-    messages: [{ role: 'user', content: prompt }],
-  });
+  try {
+    const response = await axios.post(
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
+        model: 'codellama-70b-instruct',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.2,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${GROQ_API_KEY}`,
+        },
+      }
+    );
 
-  console.log(response.choices[0].message.content);
+    console.log(response.data.choices[0].message.content);
+  } catch (error) {
+    console.error('❌ Error from Groq API:', error.response?.data || error.message);
+    process.exit(1);
+  }
 })();
