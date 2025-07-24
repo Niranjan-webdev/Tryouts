@@ -11,8 +11,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # ✅ Don't quote numbers
 
-      - name: Set up Node.js
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: '20'
@@ -24,7 +26,7 @@ jobs:
       - name: Generate PR diff
         run: |
           git fetch origin main
-          git diff origin/main...HEAD > code_Reviewer/pr.diff  
+          git diff origin/main...HEAD > code_Reviewer/pr.diff
 
       - name: Run AI Review script
         working-directory: ./code_Reviewer
