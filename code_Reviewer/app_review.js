@@ -5,10 +5,22 @@ const axios = require('axios');
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 (async () => {
-  const diff = fs.readFileSync('pr.diff', 'utf8');
+  // Read PR diff
+  let diff = '';
+  try {
+    diff = fs.readFileSync('pr.diff', 'utf8').trim();
+    if (!diff) {
+      console.warn('⚠️ PR diff is empty. Skipping review.');
+      process.exit(0);
+    }
+  } catch (err) {
+    console.error('❌ Failed to read pr.diff:', err.message);
+    process.exit(1);
+  }
 
+  // Construct the review prompt
   const prompt = `
-You are an expert code reviewer. Review this GitHub Pull Request diff:
+You are an expert code reviewer. Review the following GitHub Pull Request diff:
 
 ${diff}
 
@@ -16,14 +28,14 @@ Focus only on:
 - Syntax errors
 - Redundant variables
 - Optimization suggestions (if any)
-Return the feedback in clear markdown.
+Return the feedback in clear markdown format.
 `;
 
   try {
     const response = await axios.post(
       'https://api.groq.com/openai/v1/chat/completions',
       {
-        model: 'llama3-70b-8192',
+        model: 'llama3-70b-8192', // ✅ Groq-supported model
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.2,
       },
@@ -35,7 +47,14 @@ Return the feedback in clear markdown.
       }
     );
 
-    console.log(response.data.choices[0].message.content);
+    const review = response.data.choices?.[0]?.message?.content?.trim();
+    if (!review) {
+      console.error('❌ No content returned from Groq.');
+      process.exit(1);
+    }
+
+    console.log('✅ AI Review:\n');
+    console.log(review);
   } catch (error) {
     console.error('❌ Error from Groq API:', error.response?.data || error.message);
     process.exit(1);
