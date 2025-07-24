@@ -23,7 +23,7 @@ Return the feedback in clear markdown.
     const response = await axios.post(
       'https://api.groq.com/openai/v1/chat/completions',
       {
-        model: 'codellama-70b-instruct', // You can also try llama3-8b-8192
+        model: 'codellama-70b-instruct',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.2,
       },
