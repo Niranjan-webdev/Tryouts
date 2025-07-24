@@ -21,6 +21,11 @@ jobs:
         working-directory: ./code_Reviewer
         run: npm install
 
+      - name: Generate PR diff
+        run: |
+          git fetch origin main
+          git diff origin/main...HEAD > code_Reviewer/pr.diff  
+
       - name: Run AI Review script
         working-directory: ./code_Reviewer
         run: node app_review.js
