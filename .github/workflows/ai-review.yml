@@ -12,9 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # ✅ Don't quote numbers
+          fetch-depth: 0
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
@@ -28,8 +28,8 @@ jobs:
           git fetch origin main
           git diff origin/main...HEAD > code_Reviewer/pr.diff
 
-      - name: Run AI Review script
+      - name: Run AI Review
         working-directory: ./code_Reviewer
         run: node app_review.js
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
