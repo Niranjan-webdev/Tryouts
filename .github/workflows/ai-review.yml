@@ -1,4 +1,3 @@
-# .github/workflows/ai-review.yml
 name: AI Code Review
 
 on:
@@ -19,9 +18,11 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
+        working-directory: ./code_Reviewer
         run: npm install
 
       - name: Run AI Review script
-        run: node ../../code_Reviewer/app_review.js
+        working-directory: ./code_Reviewer
+        run: node app_review.js
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
