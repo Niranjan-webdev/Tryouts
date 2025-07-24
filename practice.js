@@ -56,5 +56,5 @@
 
 let arr = [1, 2, 2, 3, 4, 4, 5, 1, 5, 4];
 let array= arr.filter((v,i) => {
-console.log(v,i)
+return [i].i
 })
