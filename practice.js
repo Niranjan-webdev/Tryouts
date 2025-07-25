@@ -59,4 +59,4 @@
 let nameFunction= (name) => {
 console.log('-->', name)
 } 
-nameFunction("FrontEnd Team")
+nameFunction(Niranjan)
