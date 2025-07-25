@@ -55,7 +55,7 @@ Return the feedback in clear markdown format.
       // Post comment to PR
     await axios.post(
       `https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments`,
-      { body: feedback },
+      { body: review },
       {
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
