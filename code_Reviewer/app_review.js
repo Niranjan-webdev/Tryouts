@@ -68,11 +68,7 @@ Return the feedback in clear markdown format.
       console.error('❌ No content returned from Groq.');
       process.exit(1);
     }
-    // To terminate merge request if the files consist any functional or syntax errors in it!
-//     if (review.includes('Syntax Errors') || review.includes('not valid JavaScript')) {
-//   console.error('❌ Critical issues found. Failing CI to block merge.');
-//   process.exit(1); 
-// }
+   
 
     console.log('✅ AI Review:\n');
     console.log(review);
