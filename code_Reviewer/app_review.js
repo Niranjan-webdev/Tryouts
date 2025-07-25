@@ -17,7 +17,7 @@ const PR_NUMBER = process.env.PR_NUMBER;
       process.exit(0);
     }
   } catch (err) {
-    console.error('❌ Failed to read pr.diff:', err.message);
+    console.error('Failed to read pr.diff:', err.message);
     process.exit(1);
   }
 
@@ -65,18 +65,18 @@ Return the feedback in clear markdown format.
     );
     
     if (!review) {
-      console.error('❌ No content returned from Groq.');
+      console.error('No content returned from Groq.');
       process.exit(1);
     }
     if (review.includes('Syntax Errors') || review.includes('not valid JavaScript')) {
-  console.error('❌ Critical issues found. Failing CI to block merge.');
+  console.error('Critical issues found. Failing CI to block merge.');
   process.exit(1); // ❌ Fail GitHub Action to block merge
 }
 
-    console.log('✅ AI Review:\n');
+    console.log('AI Review:\n');
     console.log(review);
   } catch (error) {
-    console.error('❌ Error from Groq API:', error.response?.data || error.message);
+    console.error('Error from Groq API:', error.response?.data || error.message);
     process.exit(1);
   }
 })();
