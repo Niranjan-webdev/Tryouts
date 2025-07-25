@@ -51,6 +51,19 @@ Return the feedback in clear markdown format.
     );
 
     const review = response.data.choices?.[0]?.message?.content?.trim();
+
+      // Post comment to PR
+    await axios.post(
+      `https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments`,
+      { body: feedback },
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    
     if (!review) {
       console.error('❌ No content returned from Groq.');
       process.exit(1);
