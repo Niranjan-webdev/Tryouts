@@ -68,10 +68,17 @@ Return the feedback in clear markdown format.
       console.error('No content returned from Groq.');
       process.exit(1);
     }
-    if (review.includes('Syntax Errors') || review.includes('not valid JavaScript')) {
+//     if (review.includes('Syntax Errors') || review.includes('not valid JavaScript')) {
+//   console.error('Critical issues found. Failing CI to block merge.');
+//   process.exit(1); // ❌ Fail GitHub Action to block merge
+// }
+  const hasSyntaxErrors = review.includes('Syntax Errors') && !review.includes('None found');
+  const hasInvalidJS = review.includes('not valid JavaScript');
+  if (hasSyntaxErrors || hasInvalidJS) {
   console.error('Critical issues found. Failing CI to block merge.');
-  process.exit(1); // ❌ Fail GitHub Action to block merge
+  process.exit(1);
 }
+
 
     console.log('AI Review:\n');
     console.log(review);
