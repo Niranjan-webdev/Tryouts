@@ -55,6 +55,4 @@
 // remove duplicates from an array
 
 let arr = [1, 2, 2, 3, 4, 4, 5, 1, 5, 4];
-let array= ar.foreac((v,i) => {
-return [i].i let name= 'niranjan'
-})
+let array= arr.filter((v => v==5})
