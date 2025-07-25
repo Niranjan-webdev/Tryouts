@@ -68,7 +68,7 @@ Return the feedback in clear markdown format.
       console.error('❌ No content returned from Groq.');
       process.exit(1);
     }
-   
+    
 
     console.log('✅ AI Review:\n');
     console.log(review);
