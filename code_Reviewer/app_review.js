@@ -72,12 +72,21 @@ Return the feedback in clear markdown format.
 //   console.error('Critical issues found. Failing CI to block merge.');
 //   process.exit(1); // ❌ Fail GitHub Action to block merge
 // }
-  const hasSyntaxErrors = review.includes('Syntax Errors') && !review.includes('None found');
-  const hasInvalidJS = review.includes('not valid JavaScript');
-  if (hasSyntaxErrors || hasInvalidJS) {
-  console.error('Critical issues found. Failing CI to block merge.');
+//   const hasSyntaxErrors = review.includes('Syntax Errors') && !review.includes('None found');
+//   const hasInvalidJS = review.includes('not valid JavaScript');
+//   if (hasSyntaxErrors || hasInvalidJS) {
+//   console.error('Critical issues found. Failing CI to block merge.');
+//   process.exit(1);
+// }
+   const syntaxPattern = /### Syntax Errors\s+None found\.?/i;
+
+if (!syntaxPattern.test(review)) {
+  console.error('❌ Critical issues found. Failing CI to block merge.');
   process.exit(1);
+} else {
+  console.log('✅ No syntax errors. Merge allowed.');
 }
+ 
 
 
     console.log('AI Review:\n');
