@@ -70,7 +70,7 @@ Return the feedback in clear markdown format.
     }
 //     if (review.includes('Syntax Errors') || review.includes('not valid JavaScript')) {
 //   console.error('Critical issues found. Failing CI to block merge.');
-//   process.exit(1); // ❌ Fail GitHub Action to block merge
+//   process.exit(1); //  Fail GitHub Action to block merge
 // }
 //   const hasSyntaxErrors = review.includes('Syntax Errors') && !review.includes('None found');
 //   const hasInvalidJS = review.includes('not valid JavaScript');
@@ -81,10 +81,10 @@ Return the feedback in clear markdown format.
    const syntaxPattern = /### Syntax Errors\s+None found\.?/i;
 
 if (!syntaxPattern.test(review)) {
-  console.error('❌ Critical issues found. Failing CI to block merge.');
+  console.error(' Critical issues found. Failing CI to block merge.');
   process.exit(1);
 } else {
-  console.log('✅ No syntax errors. Merge allowed.');
+  console.log('No syntax errors. Merge allowed.');
 }
  
 
