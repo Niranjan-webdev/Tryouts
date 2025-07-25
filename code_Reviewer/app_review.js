@@ -3,6 +3,9 @@ const fs = require('fs');
 const axios = require('axios');
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY;
+const PR_NUMBER = process.env.PR_NUMBER;
 
 (async () => {
   // Read PR diff
@@ -48,6 +51,19 @@ Return the feedback in clear markdown format.
     );
 
     const review = response.data.choices?.[0]?.message?.content?.trim();
+
+      // Post comment to PR
+    await axios.post(
+      `https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments`,
+      { body: review },
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    
     if (!review) {
       console.error('❌ No content returned from Groq.');
       process.exit(1);
