@@ -3,6 +3,9 @@ const fs = require('fs');
 const axios = require('axios');
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY;
+const PR_NUMBER = process.env.PR_NUMBER;
 
 (async () => {
   // Read PR diff
